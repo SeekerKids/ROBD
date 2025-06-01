@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: my-mongodb-instance
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db # Persist MongoDB data
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user # Optional: for basic authentication
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    restart: always # Keep the container running
+
+  cassandra:
+    image: cassandra:latest
+    container_name: my-cassandra-instance
+    ports:
+      - "9042:9042" # CQL port
+      - "7000:7000" # Intra-node communication
+    volumes:
+      - cassandra_data:/var/lib/cassandra # Persist Cassandra data
+    environment:
+      CASSANDRA_CLUSTER_NAME: 'MyCassandraCluster' # Optional: cluster name
+    restart: always # Keep the container running
+    healthcheck: # Healthcheck to ensure Cassandra is ready
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = \"RUNNING\" ] || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mongodb_data: # Define the named volume for MongoDB
+  cassandra_data: # Define the named volume for Cassandra
+ 
