@@ -1524,6 +1524,8 @@ with col_deleteIndex:
         st.info("Tidak ada index lain selain `_id_` untuk dihapus.")
 
 #---- footer ----
+st.markdown("---")
+st.markdown("© 2025 Kelompok Mufid | Fafa | Mirza | DS-46-02 ROBD", unsafe_allow_html=True)
 
 # --- Close connections on app exit (Streamlit handles this somewhat, but explicit is good) ---
 # This part is generally handled by Streamlit's caching and resource management.
